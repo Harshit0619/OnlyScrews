@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { FileText } from "lucide-react";
 import BlogCard from "@/components/BlogCard";
 import { BLOG_POSTS } from "./blogData";
+import { COLORS } from "@/lib/theme";
 
 const ALL_FILTERS = [
   "All posts",
@@ -46,35 +48,46 @@ export default function Blog() {
 
         <div className="mb-12">
           <div className="flex flex-wrap gap-3 mb-4 items-start">
-            {ALL_FILTERS.slice(0, 9).map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all duration-200 ${
-                  activeFilter === filter
-                    ? "bg-[#16a34a] text-white"
-                    : "text-gray-700 hover:bg-gray-100 border border-gray-200"
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
+            <div className="flex items-center gap-1 pt-1">
+              <FileText className="w-4 h-4 text-gray-700" strokeWidth={3} />
+            </div>
+            {ALL_FILTERS.slice(0, 9).map((filter) => {
+              const isActive = activeFilter === filter;
+              return (
+                <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className={`px-3 py-1.5 rounded-full font-medium text-sm whitespace-nowrap transition-all duration-200 ${
+                    isActive ? "text-black" : "text-gray-700 hover:bg-gray-50"
+                  }`}
+                  style={
+                    isActive ? { backgroundColor: COLORS.primary } : undefined
+                  }
+                >
+                  {filter}
+                </button>
+              );
+            })}
           </div>
 
           <div className="flex flex-wrap gap-3">
-            {ALL_FILTERS.slice(9).map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all duration-200 ${
-                  activeFilter === filter
-                    ? "bg-[#16a34a] text-white"
-                    : "text-gray-700 hover:bg-gray-100 border border-gray-200"
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
+            {ALL_FILTERS.slice(9).map((filter) => {
+              const isActive = activeFilter === filter;
+              return (
+                <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className={`px-3 py-1.5 rounded-full font-medium text-sm whitespace-nowrap transition-all duration-200 ${
+                    isActive ? "text-black" : "text-gray-700 hover:bg-gray-50"
+                  }`}
+                  style={
+                    isActive ? { backgroundColor: COLORS.primary } : undefined
+                  }
+                >
+                  {filter}
+                </button>
+              );
+            })}
           </div>
         </div>
 

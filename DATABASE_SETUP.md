@@ -103,7 +103,7 @@ npm run prisma:studio
 ### Netlify Environment Variables:
 
 1. Go to Netlify Dashboard → Site Settings → Environment Variables
-2. Add: `DATABASE_URL` = `postgresql://neondb_owner:npg_tVMeP3fCY4bS@ep-solitary-breeze-ah443wyg-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
+2. Add: `DATABASE_URL` = ``
 
 ---
 

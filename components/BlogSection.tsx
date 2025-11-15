@@ -1,37 +1,39 @@
+"use client";
+
 import Link from "next/link";
 import BlogCard from "./BlogCard";
 import { BLOG_POSTS } from "@/app/blog/blogData";
+import { H2, H3, Body } from "./ui/Typography";
+import { COLORS } from "@/lib/theme";
+import { useState } from "react";
 
 export default function BlogSection() {
   // Show first 3 blog posts
   const featuredPosts = BLOG_POSTS.slice(0, 3);
+  const [isHovering, setIsHovering] = useState(false);
 
   return (
-    <section className="w-full bg-gray-50 py-16 md:py-20">
+    <section className="w-full bg-gray-50 py-12 md:py-16">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-4"
-            style={{
-              color: "rgb(17, 24, 39)",
-              fontFamily: "Montserrat, sans-serif",
-            }}
-          >
+          <H2 className="mb-4" style={{ color: "rgb(17, 24, 39)" }}>
             Premium Fasteners & Hardware
-          </h2>
-          <p
-            className="text-lg text-gray-600 mb-6"
-            style={{
-              fontFamily: "Montserrat, sans-serif",
-            }}
-          >
+          </H2>
+          <Body className="text-gray-600 mb-6 max-w-3xl mx-auto">
             Precision-engineered bolts, screws, and fasteners for every project.
             Quality you can trust, delivered fast.
-          </p>
+          </Body>
           <Link
             href="/blog"
-            className="inline-block bg-[#16a34a] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#15803d] transition-colors"
+            className="inline-block text-white px-6 py-3 rounded-md font-semibold transition-colors"
+            style={{
+              backgroundColor: isHovering
+                ? COLORS.primaryHover
+                : COLORS.primary,
+            }}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
           >
             Explore Our Blog
           </Link>
@@ -40,7 +42,10 @@ export default function BlogSection() {
         {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="w-12 h-12 bg-[#16a34a] rounded-lg flex items-center justify-center mb-4">
+            <div
+              className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
+              style={{ backgroundColor: COLORS.primary }}
+            >
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -55,17 +60,18 @@ export default function BlogSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Precision Quality
-            </h3>
-            <p className="text-gray-600">
+            <H3 className="mb-2">Precision Quality</H3>
+            <Body className="text-gray-600">
               Every fastener meets rigorous quality standards for reliability
               and durability.
-            </p>
+            </Body>
           </div>
 
           <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="w-12 h-12 bg-[#16a34a] rounded-lg flex items-center justify-center mb-4">
+            <div
+              className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
+              style={{ backgroundColor: COLORS.primary }}
+            >
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -80,17 +86,18 @@ export default function BlogSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Fast Shipping
-            </h3>
-            <p className="text-gray-600">
+            <H3 className="mb-2">Fast Shipping</H3>
+            <Body className="text-gray-600">
               Orders ship same day. Get the fasteners you need, when you need
               them.
-            </p>
+            </Body>
           </div>
 
           <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="w-12 h-12 bg-[#16a34a] rounded-lg flex items-center justify-center mb-4">
+            <div
+              className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
+              style={{ backgroundColor: COLORS.primary }}
+            >
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -105,19 +112,17 @@ export default function BlogSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Expert Guides
-            </h3>
-            <p className="text-gray-600">
+            <H3 className="mb-2">Expert Guides</H3>
+            <Body className="text-gray-600">
               Learn how to choose and install the right fasteners for your
               project.
-            </p>
+            </Body>
           </div>
         </div>
 
         {/* Blog Posts */}
         <div className="mb-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Blogs</h3>
+          <H3 className="mb-6">Blogs</H3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredPosts.map((post) => (
               <BlogCard key={post.id} post={post} />

@@ -1,114 +1,103 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import { SPACING, COLORS } from "@/lib/theme";
+import { H1, H3, Body } from "./ui/Typography";
+import StandardCard from "./ui/StandardCard";
 
 const products = [
-  { name: "Nylon Spacers", image: "/images/products/nylon-spacers.png" },
-  { name: "Nylon Washers", image: "/images/products/nylon-washers.png" },
-  { name: "Nylon Nuts", image: "/images/products/nylon-nuts.png" },
-  { name: "Nylon Bolts", image: "/images/products/nylon-bolts.png" },
-  {
-    name: "Nylon Machine Screws",
-    image: "/images/products/nylon-machine-screws.png",
-  },
+  { id: 1, name: "Nylon Spacers", image: "/images/products/nylon-spacers.png" },
+  { id: 2, name: "Nylon Washers", image: "/images/products/nylon-washers.png" },
+  { id: 3, name: "Nylon Nuts", image: "/images/products/nylon-nuts.png" },
+  { id: 4, name: "Nylon Bolts", image: "/images/products/nylon-bolts.png" },
+  { id: 5, name: "Nylon Machine Screws", image: "/images/products/nylon-machine-screws.png"},
 ];
 
 export default function NylonRangeSection() {
-  const [scrollY, setScrollY] = useState(0);
+  const bgRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
+    let rafId = 0;
+    let lastScrollY = window.scrollY;
+
+    const onScroll = () => {
+      lastScrollY = window.scrollY;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (bgRef.current) {
+          const offset = Math.round(lastScrollY * 0.3);
+          bgRef.current.style.transform = `translate3d(0, ${offset}px, 0)`;
+        }
+      });
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
-    <div className="w-full relative py-12 sm:py-16 md:py-20 lg:py-24 bg-white overflow-hidden">
-      {/* Background Image - Extends beyond viewport with Parallax */}
+    <section
+      className={`relative overflow-hidden bg-white ${SPACING.section.py}`}
+    >
+      {/* Parallax Background */}
       <div
-        className="absolute inset-0 w-full h-full"
-        style={{
-          transform: `translateY(${scrollY * 0.3}px)`,
-          transition: "transform 0.1s ease-out",
-        }}
+        ref={bgRef}
+        className="absolute inset-0 -z-10 will-change-transform"
+        style={{ transform: "translate3d(0,0,0)" }}
       >
         <Image
           src="https://cdn.builder.io/api/v1/image/assets%2F61feb74e32ed4195a4cbd55149a401bd%2Fb66521bb13234db2b75617a0f01640df"
-          alt="Nylon Range Background"
+          alt="Nylon background"
           fill
+          priority
           style={{
             objectFit: "cover",
             objectPosition: "center",
+            opacity: 0.15,
           }}
-          className="w-full h-full opacity-120 scale-110"
-          priority
           sizes="100vw"
         />
       </div>
 
-      {/* Content Overlay */}
-      <div className="relative z-10 container mx-auto px-4">
-        {/* Header - Left Aligned */}
-        <div className="text-left mb-12 md:mb-16 max-w-4xl">
-          <h1
-            className="text-black mb-6"
-            style={{ font: "400 70px / 1.1 Montserrat, sans-serif" }}
-          >
-            Introducing Nylon Range
-          </h1>
-          <h2
-            className="text-gray-900 mb-6"
-            style={{ font: "600 24px / 32px Montserrat, sans-serif" }}
-          >
+      <div className={`${SPACING.container} ${SPACING.section.px}`}>
+        {/* Header */}
+        <div className="mb-10">
+          <H1 className="mb-4">Introducing Nylon Range</H1>
+          <H3 className="mb-6 text-gray-800">
             Strong, Lightweight, and Durable for Demanding Application
-          </h2>
+          </H3>
           <div
-            className="w-full border-t-2 border-black"
-            style={{ marginBottom: "32px" }}
-          ></div>
-          <p
-            className="text-gray-700 leading-relaxed font-normal text-lg"
-            style={{
-              fontFamily: '"Nunito Sans", sans-serif',
-              lineHeight: "1.8",
-            }}
-          >
+            className="w-full mb-6"
+            style={{ borderTop: `2px solid ${COLORS.black}` }}
+          />
+          <Body className="max-w-4xl">
             Our Nylon Fastener Range offers exceptional mechanical strength with
             minimal weight, making it ideal for high-performance industrial and
             electrical environments. Resistant to corrosion, moisture, and
-            vibration, these components — including nylon spacers, nuts, bolts,
-            washers, and machine screws — deliver long-lasting reliability where
-            metal fasteners may fail. Perfect for precision assemblies and
-            non-conductive applications.
-          </p>
+            vibration, these components deliver long-lasting reliability where
+            metal fasteners may fail.
+          </Body>
         </div>
 
-        {/* Product Cards Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 mt-12 md:mt-16">
+        {/* Product Grid */}
+        <div
+          className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ${SPACING.gap.lg} justify-items-center`}
+        >
           {products.map((product) => (
-            <div key={product.name} className="group cursor-pointer">
-              <div className="relative bg-black rounded-3xl p-8 md:p-10 aspect-square flex items-center justify-center transform transition-transform group-hover:scale-105 overflow-hidden shadow-lg">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={250}
-                  height={250}
-                  className="object-contain w-full h-full"
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-[#c4ff0e] text-center py-4 px-4">
-                  <h3 className="font-bold text-gray-900 text-sm md:text-base">
-                    {product.name}
-                  </h3>
-                </div>
-              </div>
-            </div>
+            <StandardCard
+              key={product.id}
+              image={product.image}
+              title={product.name}
+            />
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

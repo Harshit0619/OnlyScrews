@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ProductCard from "./ProductCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Product {
@@ -107,32 +106,29 @@ const FeaturedProductsSection = () => {
 
   return (
     <section
-      className="w-full bg-gray-900 py-12 sm:py-16 md:py-20 lg:py-24"
+      className="w-full bg-black py-12 sm:py-16 md:py-20 lg:py-24"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="container mx-auto px-4">
         <div className="mb-8 md:mb-12 flex items-center justify-between">
-          <h2
-            className="text-white"
-            style={{ font: "700 48px / 1.2 Montserrat, sans-serif" }}
-          >
+          <h2 className="flex-1 text-4xl md:text-5xl font-bold text-[#BCFF83] text-center">
             Our Featured Products
           </h2>
           <div className="flex gap-2">
             <button
               onClick={scrollPrev}
-              className="p-2 border border-gray-600 rounded-md hover:bg-gray-800 transition-colors"
+              className="p-2 border border-gray-700 rounded-md hover:border-[#BCFF83] hover:bg-[#BCFF83] hover:text-black transition-all duration-300"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="h-5 w-5 text-white" />
+              <ChevronLeft className="h-5 w-5" />
             </button>
             <button
               onClick={scrollNext}
-              className="p-2 border border-gray-600 rounded-md hover:bg-gray-800 transition-colors"
+              className="p-2 border border-gray-700 rounded-md hover:border-[#BCFF83] hover:bg-[#BCFF83] hover:text-black transition-all duration-300"
               aria-label="Next slide"
             >
-              <ChevronRight className="h-5 w-5 text-white" />
+              <ChevronRight className="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -146,11 +142,24 @@ const FeaturedProductsSection = () => {
               <div key={slideIndex} className="flex-shrink-0 w-full">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                   {slideProducts.map((product) => (
-                    <ProductCard
+                    <div
                       key={product.id}
-                      image={product.image}
-                      title={product.title}
-                    />
+                      className="flex flex-col items-center"
+                    >
+                      {/* Card container for image only (dark background to match grid) */}
+                      <div className="w-[280px] rounded-lg bg-black shadow-[0_6px_20px_rgba(0,0,0,0.6)] border border-neutral-800 overflow-hidden">
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          className="w-full h-[160px] object-contain block bg-transparent"
+                        />
+                      </div>
+
+                      {/* Text separate below the card */}
+                      <div className="mt-3 px-4 text-[15px] text-white font-medium max-w-[280px] text-center">
+                        {product.title}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -159,7 +168,7 @@ const FeaturedProductsSection = () => {
         </div>
 
         <div className="text-center mt-8 md:mt-12">
-          <button className="px-8 py-3 border-2 border-white text-white rounded-md font-semibold hover:bg-white hover:text-gray-900 transition-colors">
+          <button className="px-8 py-3 border-2 border-[#BCFF83] bg-[#BCFF83] text-black rounded-lg font-semibold hover:bg-transparent hover:text-[#BCFF83] transition-all duration-300">
             View all
           </button>
         </div>

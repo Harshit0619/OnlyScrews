@@ -3,6 +3,8 @@
 import { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight, Star, CheckCircle } from "lucide-react";
 import TestimonialCard from "./TestimonialCard";
+import { H2 } from "./ui/Typography";
+import { COLORS } from "@/lib/theme";
 
 const testimonials = [
   {
@@ -62,6 +64,8 @@ const testimonials = [
 const TestimonialsSection = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [hoverLeft, setHoverLeft] = useState(false);
+  const [hoverRight, setHoverRight] = useState(false);
 
   const scroll = (direction: "left" | "right") => {
     if (containerRef.current) {
@@ -84,15 +88,10 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="w-full py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+    <section className="w-full py-12 md:py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2
-            className="text-gray-900 mb-4"
-            style={{ font: "700 48px / 1.2 Montserrat, sans-serif" }}
-          >
-            Let customers speak for us
-          </h2>
+          <H2 className="text-gray-900 mb-4">Let customers speak for us</H2>
           <div className="flex justify-center items-center gap-2 mb-3">
             {[...Array(5)].map((_, i) => (
               <Star
@@ -108,14 +107,23 @@ const TestimonialsSection = () => {
             >
               from 698 reviews
             </a>
-            <CheckCircle className="w-5 h-5 text-green-500" />
+            <CheckCircle
+              className="w-5 h-5"
+              style={{ color: COLORS.primary }}
+            />
           </div>
         </div>
 
         <div className="relative">
           <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full shadow-lg bg-white hover:bg-gray-100 p-2 border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full shadow-lg p-2 border transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              backgroundColor: hoverLeft ? COLORS.primary : "white",
+              borderColor: hoverLeft ? COLORS.primary : "#E5E7EB",
+            }}
             onClick={() => scroll("left")}
+            onMouseEnter={() => setHoverLeft(true)}
+            onMouseLeave={() => setHoverLeft(false)}
             disabled={scrollPosition === 0}
             aria-label="Previous testimonials"
           >
@@ -133,8 +141,14 @@ const TestimonialsSection = () => {
           </div>
 
           <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full shadow-lg bg-white hover:bg-gray-100 p-2 border border-gray-200"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full shadow-lg p-2 border transition-colors"
+            style={{
+              backgroundColor: hoverRight ? COLORS.primary : "white",
+              borderColor: hoverRight ? COLORS.primary : "#E5E7EB",
+            }}
             onClick={() => scroll("right")}
+            onMouseEnter={() => setHoverRight(true)}
+            onMouseLeave={() => setHoverRight(false)}
             aria-label="Next testimonials"
           >
             <ChevronRight className="w-5 h-5" />
