@@ -1,5 +1,8 @@
 import { Metadata } from "next";
 
+// Revalidate blog section every 1 hour for ISR
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: "Blog - Fastener Tips, Guides & Industry News | Screw Bazar",
   description:

@@ -9,6 +9,9 @@ import TestimonialsSection from "../components/TestimonialsSection";
 import BlogSection from "../components/BlogSection";
 import CTAButton from "../components/ui/CTAButton";
 
+// Revalidate homepage every 60 seconds for freshness
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title:
     "Screw Bazar - Premium Fasteners, Screws, Bolts & Hardware | OnlyScrews",
