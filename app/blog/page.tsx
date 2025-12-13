@@ -28,6 +28,7 @@ const ALL_FILTERS = [
 export default function Blog() {
   const [activeFilter, setActiveFilter] = useState("All posts");
 
+
   const filteredPosts =
     activeFilter === "All posts"
       ? BLOG_POSTS
